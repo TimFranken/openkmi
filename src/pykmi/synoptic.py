@@ -1,8 +1,7 @@
-from owslib.fes import *
+from owslib.fes import PropertyIsEqualTo, PropertyIsGreaterThanOrEqualTo, PropertyIsLessThan, And
 from owslib.wfs import WebFeatureService
 from owslib.etree import etree
 import pandas as pd
-import matplotlib.pyplot as plt
 
 
 WFS_ENDPOINT = 'https://opendata.meteo.be/service/synop/wfs'
@@ -12,11 +11,14 @@ class Synop:
 
     def __init__(self):
 
-        self.wfs = WebFeatureService(url='https://opendata.meteo.be/service/synop/wfs', version='1.1.0')
+        self.wfs = WebFeatureService(url=WFS_ENDPOINT, version='1.1.0')
         self.stations = None
 
     def _get_contents(self):
-
+        """
+        Get the types we can use in the WFS
+        :return: list of types
+        """
         return list(self.wfs.contents)
 
     def get_stations(self):
@@ -35,7 +37,7 @@ class Synop:
     def get_parameters(self):
         """
         Get parameters that we can request for the stations
-        :return:
+        :return: dictionary with the parameters
         """
         return self.wfs.get_schema('synop:synop_data')['properties']
 
@@ -46,6 +48,7 @@ class Synop:
         :param start_date: start date for which to request the data (string, format: '2021-01-01T00:00:00')
         :param end_date: end date for which to request the data (string, format: '2021-01-01T00:00:00')
         :param parameter_list: List of parameters
+        :return pandas dataframe with the requested data
         """
 
         # Get the station list so we can validate the station_code
@@ -99,5 +102,3 @@ if __name__ == '__main__':
     print(kmi.get_parameters())
     print(kmi.get_stations())
     df_r = kmi.get_data('6438', start_date='2015-01-01T00:00:00', parameter_list=['wind_speed'])
-    df_r.plot()
-    plt.show()

@@ -12,8 +12,9 @@ See the following links for the metadata of the service:
 See the notebook under examples to get you started.
 
 Quik start:
+
 ```python
-from pykmi.synoptic import Synop
+from src.pykmi import Synop
 
 # initialise
 kmi = Synop()
