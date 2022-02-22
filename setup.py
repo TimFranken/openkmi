@@ -4,8 +4,8 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="pykmi",
-    version="0.0.1",
+    name="pyrmi",
+    version="0.0.2",
     author="Tim Franken",
     author_email="tim.franken@sumaqua.be",
     description="Python package to download synoptic measurements from RMI",

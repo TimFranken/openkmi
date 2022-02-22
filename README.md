@@ -1,6 +1,6 @@
-# pyKMI
+# pyRMI
 
-pyKMI serves as a wrapper around the WFS service that KMI offers to download the synoptic measurements.
+pyRMI serves as a wrapper around the WFS service that the Royal Meteorological Institute of Belgium (RMI) offers to download the synoptic measurements.
 
 This is not an official RMI package.
 
@@ -15,7 +15,7 @@ See the notebook under examples to get you started.
 Quik start:
 
 ```python
-from src.pykmi import Synop
+from pyrmi.synoptic import Synop
 
 # initialise
 kmi = Synop()

@@ -94,11 +94,3 @@ class Synop:
         df.sort_index(inplace=True)
 
         return df
-
-
-if __name__ == '__main__':
-
-    kmi = Synop()
-    print(kmi.get_parameters())
-    print(kmi.get_stations())
-    df_r = kmi.get_data('6438', start_date='2015-01-01T00:00:00', parameter_list=['wind_speed'])
