@@ -2,10 +2,11 @@
 
 pyKMI serves as a wrapper around the WFS service that KMI offers to download the synoptic measurements.
 
-See the following links for the metadata of the service:
+This is not an official RMI package.
 
-* https://opendata.meteo.be/geonetwork/srv/eng/catalog.search;jsessionid=A7FEA3AF21132DE8B1DA8A2CD1746597#/metadata/RMI_DATASET_SYNOP
-* https://opendata.meteo.be/documentation/?dataset=synop
+Check the [metadata](https://opendata.meteo.be/geonetwork/srv/eng/catalog.search;jsessionid=A7FEA3AF21132DE8B1DA8A2CD1746597#/metadata/RMI_DATASET_SYNOP) 
+and [documentation](https://opendata.meteo.be/documentation/?dataset=synop)
+of the synoptic measurements for more info.
 
 ## Getting started
 

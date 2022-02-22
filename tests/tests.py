@@ -35,4 +35,3 @@ class TestpyKMI(TestCase):
                               end_date='2015-01-02T00:00:00', parameter_list=['wind_speed'])
 
         self.assertTrue('station code not valid' in str(context.exception))
-
