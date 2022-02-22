@@ -12,7 +12,7 @@ See the following links for the metadata of the service:
 See the notebook under examples to get you started.
 
 Quik start:
-```Python
+```python
 from pykmi.synoptic import Synop
 kmi = Synop()
 # get the available stations
