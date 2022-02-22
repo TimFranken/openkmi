@@ -14,11 +14,16 @@ See the notebook under examples to get you started.
 Quik start:
 ```python
 from pykmi.synoptic import Synop
+
+# initialise
 kmi = Synop()
+
 # get the available stations
 df_stations = kmi.get_stations()
-# to get the available parameters
-kmi.get_parameters()
+
+# get the available parameters
+params = kmi.get_parameters()
+
 # example to get the windspeed for a station starting from 2021 - present
 df = kmi.get_data('6438', start_date='2021-01-01T00:00:00', parameter_list=['wind_speed'])
 ```
