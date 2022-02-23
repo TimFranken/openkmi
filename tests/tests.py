@@ -1,4 +1,4 @@
-from src.pyrmi.synoptic import Synop
+from src.openkmi.synoptic import Synop
 from unittest import TestCase
 import owslib
 

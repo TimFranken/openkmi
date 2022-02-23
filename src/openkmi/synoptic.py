@@ -89,7 +89,7 @@ class Synop:
         # Convert to a clean dataframe
         df = pd.read_csv(response)
         df.drop(columns=['FID', 'the_geom', 'code'], inplace=True)
-        df['timestamp'] = pd.to_datetime(df['timestamp'])
+        df['timestamp'] = pd.to_datetime(df['timestamp'], utc=True)
         df.set_index('timestamp', inplace=True)
         df.sort_index(inplace=True)
 
