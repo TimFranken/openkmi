@@ -11,9 +11,9 @@ setuptools.setup(
     description="Python package to download synoptic measurements from RMI",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://gitlab.com/Sumaqua/pykmi",
+    url="https://gitlab.com/TimFranken/openkmi",
     project_urls={
-        "Documentation": "https://gitlab.com/Sumaqua/pykmi",
+        "Documentation": "https://gitlab.com/TimFranken/openkmi",
     },
     classifiers=[
         "Development Status :: 3 - Alpha",
