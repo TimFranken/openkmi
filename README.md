@@ -1,6 +1,6 @@
 # OpenKMI
 
-Python package to download synoptic measurements from KMI
+Python package to download open data from KMI.
 
 ## Description
 

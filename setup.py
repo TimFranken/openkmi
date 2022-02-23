@@ -5,15 +5,15 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="openkmi",
-    version="0.0.1",
+    version="0.1.0",
     author="Tim Franken",
     author_email="tim.franken@sumaqua.be",
-    description="Python package to download synoptic measurements from RMI",
+    description="Python package to download open data from KMI",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://gitlab.com/TimFranken/openkmi",
+    url="https://github.com/TimFranken/openkmi",
     project_urls={
-        "Documentation": "https://gitlab.com/TimFranken/openkmi",
+        "Documentation": "https://github.com/TimFranken/openkmi",
     },
     classifiers=[
         "Development Status :: 3 - Alpha",
