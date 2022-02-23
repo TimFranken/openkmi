@@ -3,5 +3,5 @@
 */__pycache__
 */.ipynb_checkpoints
 __pycache__/*
-src/pyrmi.egg-info
+src/openkmi.egg-info
 dist/
