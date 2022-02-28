@@ -28,6 +28,16 @@ class TestpyKMI(TestCase):
         self.assertAlmostEqual(df_r.sum()['wind_speed'], 156.872, places=3)
         self.assertEqual(df_r.shape[0], 24)
 
+    def test_custom_filter(self):
+
+        from owslib.fes import PropertyIsEqualTo
+
+        custom_filt = PropertyIsEqualTo(propertyname='precip_range', literal='2')
+        df_r = self.kmi.get_data('6447', start_date='2020-01-01T00:00:00', end_date='2021-01-01T00:00:00',
+                                 parameter_list=['precip_quantity', 'precip_range'], custom_filter=custom_filt)
+
+        self.assertEqual(df_r.shape[0], 366*2)
+
     def test_wrong_station(self):
 
         with self.assertRaises(Exception) as context:
@@ -35,3 +45,25 @@ class TestpyKMI(TestCase):
                               end_date='2015-01-02T00:00:00', parameter_list=['wind_speed'])
 
         self.assertTrue('station code not valid' in str(context.exception))
+
+    def test_wrong_custom_filter(self):
+
+        with self.assertRaises(Exception) as context:
+            self.kmi.get_data('6447', start_date='2015-01-01T00:00:00',
+                              end_date='2015-01-02T00:00:00', parameter_list=['wind_speed'],
+                              custom_filter='thisisnotafilter')
+
+        self.assertTrue('OgcExpression' in str(context.exception))
+
+    def test_wrong_custom_filter_list(self):
+
+        from owslib.fes import PropertyIsEqualTo
+
+        custom_filt = PropertyIsEqualTo(propertyname='precip_range', literal='2')
+
+        with self.assertRaises(Exception) as context:
+            self.kmi.get_data('6447', start_date='2015-01-01T00:00:00',
+                              end_date='2015-01-02T00:00:00', parameter_list=['wind_speed'],
+                              custom_filter=[custom_filt, 'thisisnotafilter'])
+
+        self.assertTrue('OgcExpression' in str(context.exception))
