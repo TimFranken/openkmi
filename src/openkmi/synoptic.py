@@ -111,11 +111,3 @@ class Synop:
         df.sort_index(inplace=True)
 
         return df
-
-
-kmi = Synop()
-
-custom_filt = PropertyIsEqualTo(propertyname='precip_range', literal='2')
-df_r = kmi.get_data('6447', start_date='2020-01-01T00:00:00', end_date='2021-01-01T00:00:00',
-                    parameter_list=['precip_quantity', 'precip_range'], custom_filter=custom_filt)
-print(df_r.shape[0])

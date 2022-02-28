@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="openkmi",
-    version="0.1.0",
+    version="0.2.1",
     author="Tim Franken",
     author_email="tim.franken@sumaqua.be",
     description="Python package to download open data from KMI",
