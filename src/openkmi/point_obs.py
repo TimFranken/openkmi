@@ -4,15 +4,14 @@ from owslib.etree import etree
 import pandas as pd
 
 
-WFS_ENDPOINT = 'https://opendata.meteo.be/service/synop/wfs'
-
-
 class Synop:
 
     def __init__(self):
 
-        self.wfs = WebFeatureService(url=WFS_ENDPOINT, version='1.1.0')
+        self.wfs = WebFeatureService(url='https://opendata.meteo.be/service/synop/wfs', version='1.1.0')
+        self.station_wfs = self.wfs
         self.stations = None
+        self.data_layer = 'synop:synop_data'
 
     def _get_contents(self):
         """
@@ -26,7 +25,7 @@ class Synop:
         Get the list of stations that are available for requesting
         :return: pandas dataframe with the list of all stations
         """
-        response = self.wfs.getfeature(typename='synop:synop_station', outputFormat='csv')
+        response = self.station_wfs.getfeature(typename='synop:synop_station', outputFormat='csv')
         df_stations = pd.read_csv(response)
         df_stations.drop(columns=['FID'], inplace=True)
         df_stations['code'] = df_stations['code'].astype('str')
@@ -39,7 +38,7 @@ class Synop:
         Get parameters that we can request for the stations
         :return: dictionary with the parameters
         """
-        return self.wfs.get_schema('synop:synop_data')['properties']
+        return self.wfs.get_schema(self.data_layer)['properties']
 
     def get_data(self, station_code, start_date=None, end_date=None, parameter_list=None,
                  custom_filter=None):
@@ -100,7 +99,7 @@ class Synop:
             parameter_string = None
 
         # Do the actual WFS request
-        response = self.wfs.getfeature(typename='synop:synop_data', filter=filterxml, outputFormat='csv',
+        response = self.wfs.getfeature(typename=self.data_layer, filter=filterxml, outputFormat='csv',
                                        propertyname=parameter_string)
 
         # Convert to a clean dataframe
@@ -111,3 +110,35 @@ class Synop:
         df.sort_index(inplace=True)
 
         return df
+
+
+class AWS(Synop):
+
+    def __init__(self, freq='H'):
+
+        self.wfs = WebFeatureService(url='https://opendata.meteo.be/service/aws/ows', version='1.1.0')
+        # AWS has no layer to fetch the available stations. So we grab them from the synop layer
+        self.station_wfs = WebFeatureService(url='https://opendata.meteo.be/service/synop/wfs', version='1.1.0')
+        self.stations = None
+        if freq == 'H':
+            self.data_layer = 'aws:aws_1hour'
+        elif freq == 'D':
+            self.data_layer = 'aws:aws_1day'
+        elif freq == '10T':
+            self.data_layer = 'aws:aws_10min'
+        else:
+            raise Exception('Freq string should be any of H (hourly), D (daily) or 10T (10 minute)')
+
+    def get_stations(self):
+        """
+        Get the list of stations that are publicly available for requesting
+        :return: pandas dataframe with the list of all stations
+        """
+
+        super().get_stations()
+        # Only the data for station 'Zeebrugge' and 'Humain' are publicly available.
+        self.stations = self.stations[self.stations['name'].isin(['ZEEBRUGGE', 'HUMAIN'])]
+        # Only the data from 2017-11-18 are publicly available.
+        self.stations['date_begin'] = '2017-11-18T00:00:00'
+
+        return self.stations

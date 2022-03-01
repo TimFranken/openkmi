@@ -5,8 +5,12 @@ Python package to download open data from KMI.
 ## Description
 
 OpenKMI serves as a simple wrapper around the open data that the Royal Meteorological Institute of Belgium (RMI)
-offers. At present only the Synoptic observations are implemented. The package facilitates fetching data from the
-existing WFS service to download the SYNOP data.
+offers. At present data from the Synoptic observations and the Automatic weather stations (AWS) are implemented.
+The package facilitates fetching data from the existing WFS services to download this data.
+
+This is not an official package from the RMI.
+
+### Synoptic observations
 
 The SYNOP data of RMI contain the observations of the synoptic network (22 stations) for the following parameters:
 1. Precipitation: PRECIP_QUANTITY + PRECIP_RANGE
@@ -23,7 +27,14 @@ We refer to the [metadata](https://opendata.meteo.be/geonetwork/srv/eng/catalog.
 and [documentation](https://opendata.meteo.be/documentation/?dataset=synop)
 of the synoptic measurements for more info.
 
-This is not an official package from the RMI.
+### Automatic weather stations
+
+RMI operates a network of 17 automatic weather stations in Belgium. These weather stations report meteorological
+parameters such as air pressure, temperature, relative humidity, precipitation (quantity, duration),
+wind (speed, gust, direction), sunshine duration, shortwave solar radiation and infrared radiation every 10 minutes.
+Hourly and daily AWS data are computed from the 10-min observations.
+
+At present only the data for station 'Zeebrugge' and 'Humain' from 2017-11-18 onwards are publicly available.
 
 
 ## Installation
@@ -34,15 +45,25 @@ pip install openkmi
 
 ## Examples
 
-See the notebook under examples to get you started.
+See the notebooks under examples to get you started.
 
-Quick start:
+### Quick start:
+
 
 ```python
-from openkmi.synoptic import Synop
+from openkmi.point_obs import Synop
+from openkmi.point_obs import AWS
 
-# initialise
+# initialise synoptic data
 kmi = Synop()
+
+# initialise AWS data
+# default is hourly
+kmi_aws_hour = AWS()
+# 10-min data:
+kmi_aws_10min = AWS(freq='10T')
+# Daily data:
+kmi_aws_day = AWS(freq='D')
 
 # get the available stations
 df_stations = kmi.get_stations()

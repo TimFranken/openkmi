@@ -1,9 +1,9 @@
-from src.openkmi.synoptic import Synop
+from src.openkmi.point_obs import Synop
 from unittest import TestCase
 import owslib
 
 
-class TestpyKMI(TestCase):
+class TestSynop(TestCase):
 
     def setUp(self):
         self.kmi = Synop()
