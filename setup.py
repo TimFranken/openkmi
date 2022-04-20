@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="openkmi",
-    version="0.2.1",
+    version="0.3.0",
     author="Tim Franken",
     author_email="tim.franken@sumaqua.be",
     description="Python package to download open data from KMI",
@@ -13,7 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/TimFranken/openkmi",
     project_urls={
-        "Documentation": "https://github.com/TimFranken/openkmi",
+        "Documentation": "https://github.com/TimFranken/openkmi/tree/master/examples",
     },
     classifiers=[
         "Development Status :: 3 - Alpha",
