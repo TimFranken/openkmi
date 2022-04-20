@@ -86,8 +86,10 @@ class Synop:
             filter_list.append(PropertyIsLessThan(propertyname='timestamp', literal=end_date))
 
         # Convert filter to xml
-        filterxml = etree.tostring(And(filter_list).toXML()).decode("utf-8")
-
+        if len(filter_list) > 1:
+            filterxml = etree.tostring(And(filter_list).toXML()).decode("utf-8")
+        else:
+            filterxml = etree.tostring(filter_list[0].toXML()).decode("utf-8")
         # Only request data for certain parameters
         if isinstance(parameter_list, list):
             if 'timestamp' not in parameter_list:

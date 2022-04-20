@@ -67,3 +67,10 @@ class TestSynop(TestCase):
                               custom_filter=[custom_filt, 'thisisnotafilter'])
 
         self.assertTrue('OgcExpression' in str(context.exception))
+
+    def test_no_options(self):
+
+        df_r = self.kmi.get_data('6438')
+
+        self.assertEqual(df_r.first_valid_index().year, 2012)
+        self.assertEqual(df_r.shape[1], 17)
