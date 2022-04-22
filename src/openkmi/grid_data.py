@@ -1,11 +1,7 @@
-from owslib.fes import PropertyIsEqualTo, PropertyIsGreaterThanOrEqualTo, PropertyIsLessThan, And, OgcExpression
 from owslib.wms import WebMapService
-from owslib.etree import etree
 import pandas as pd
 import json
-from pyproj import Proj, transform
 from pyproj import Transformer
-import matplotlib.pyplot as plt
 
 
 class Alaro:
@@ -24,6 +20,7 @@ class Alaro:
     def get_layer_times(self, layer_name):
         """
         Get a pandas date index with all the available dates we can request
+        :param layer_name: layer to query
         :return: pandas date index with all available dates
         """
         layer = self.wms.contents[layer_name]
@@ -32,19 +29,11 @@ class Alaro:
 
         return date_index
 
-    def get_layer_crs(self, layer_name):
-        """
-        Get an overview of all the crs options available
-        :return: list of layers
-        """
-        layer = self.wms.contents[layer_name]
-
-        return layer.crsOptions
-
     def get_layer_abstract(self, layer_name):
         """
         Get the layer abstract
-        :return: list of layers
+        :param layer_name: layer to query
+        :return: abstract from the layer
         """
         layer = self.wms.contents[layer_name]
 
@@ -52,8 +41,9 @@ class Alaro:
 
     def get_layer_bbox(self, layer_name):
         """
-        Get the bounding box
-        :return: list of layers
+        Get the bounding box of the layer
+        :param layer_name: layer to query
+        :return: tuple with bounding box
         """
         layer = self.wms.contents[layer_name]
 
@@ -61,22 +51,26 @@ class Alaro:
 
     def get_data(self, layer_name, x, y, epsg='4326'):
         """
-        Get all the data for a particular timeframe
-        :return: list of layers
+        Retrieve all the forecasts for a certain parameter and location
+        :param layer_name: layer to query
+        :param x: x-coordinate for which to retrieve data
+        :param y: y-coordinate for which to retrieve data
+        :param epsg: EPSG-code of the X-Y coordinates that are given. Default is WGS84
+        :return: pandas dataframe with value of the layer for all available forecasting times
         """
 
-        tts = self.get_layer_times(layer_name)
+        # Create empty dataframe with available times
+        df = pd.DataFrame(index=self.get_layer_times(layer_name), columns=[layer_name])
 
-        df = pd.DataFrame(index=tts, columns=[layer_name])
-
-        region_size = (4000, 4000)
-
+        # Transform coordinates to EPSG:3857 that is used in the request
         if epsg == '3857':
             x_t, y_t = x, y
         else:
             transformer = Transformer.from_crs(f"epsg:{epsg}", "epsg:3857", always_xy=True)
             x_t, y_t = transformer.transform(x, y)
 
+        # Fetch the data
+        region_size = (2, 2)
         xupper = int(round(x_t - region_size[0] / 2))
         xlower = int(round(x_t + region_size[0] / 2))
         yupper = int(round(y_t - region_size[1] / 2))
@@ -96,14 +90,8 @@ class Alaro:
                 xy=(0, 0)
             )
 
-            tmp = json.loads(info.read())
+            data_value = json.loads(info.read())
 
-            df.loc[i, layer_name] = list(tmp['features'][0]['properties'].values())[0]
+            df.loc[i, layer_name] = list(data_value['features'][0]['properties'].values())[0]
 
         return df
-
-aa = Alaro()
-print(aa.get_layers())
-tmp = aa.get_data('2_m_temperature', 4.62, 50.72)
-tmp.plot()
-plt.show()
