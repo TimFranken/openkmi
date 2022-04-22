@@ -5,8 +5,12 @@ Python package to download open data from KMI.
 ## Description
 
 OpenKMI serves as a simple wrapper around the open data that the Royal Meteorological Institute of Belgium (RMI)
-offers. At present data from the Synoptic observations and the Automatic weather stations (AWS) are implemented.
-The package facilitates fetching data from the existing WFS services to download this data.
+offers. At present following data is implemented:
+* Synoptic observations
+* Automatic weather stations (AWS)
+* ALARO forecasts
+
+The package facilitates fetching data from the existing WFS and WMS services to download this data.
 
 This is not an official package from the RMI.
 
@@ -36,6 +40,22 @@ Hourly and daily AWS data are computed from the 10-min observations.
 
 At present only the data for station 'Zeebrugge' and 'Humain' from 2017-11-18 onwards are publicly available.
 
+### ALARO
+
+The weather model 'Alaro' is a numerical forecast model that simulates the evolution of the atmosphere.
+The scientists of the RMI attempt constantly to improve these models on the basis of these newest numerical techniques,
+the parameterisation of physical processes and the use of meteorological observations.
+
+The results of this research are processed in the operational weather model ALARO. It is used by the weather
+forecasters of the weather office, and for creating products and services for the general public.
+
+All the parameters of the last run of Alaro can be downloaded.
+This data is generated automatically from ALARO every six hours.
+**They aren't corrected or interpreted by the forecasters of the RMI.**
+A correct interpretation of this data requires some expertise.
+
+We refer to the [metadata](https://opendata.meteo.be/geonetwork/srv/eng/catalog.search;jsessionid=1A4FC7644B7C0B8D17287BA7A9A21278#/metadata/RMI_DATASET_ALARO)
+for more information.
 
 ## Installation
 
@@ -49,7 +69,7 @@ See the notebooks under examples to get you started.
 
 ### Quick start:
 
-
+#### Point observations
 ```python
 from openkmi.point_obs import Synop
 from openkmi.point_obs import AWS
@@ -79,4 +99,28 @@ from owslib.fes import PropertyIsEqualTo
 custom_filt = PropertyIsEqualTo(propertyname='precip_range', literal='2')
 df_r = kmi.get_data('6447', start_date='2020-01-01T00:00:00', end_date='2021-01-01T00:00:00',
                     parameter_list=['precip_quantity', 'precip_range'], custom_filter=custom_filt)
+```
+
+#### Alaro model forecasts
+
+```python
+from openkmi.grid_data import Alaro
+
+# initialise synoptic data
+kmi = Alaro()
+
+# get the available layers (parameters)
+layers = kmi.get_layers()
+
+# get more information on a layer
+abstract = kmi.get_layer_abstract('2_m_temperature')
+
+# get available forecasting times
+idx = kmi.get_layer_times('2_m_temperature')
+
+# get the data for a certain location (coordinates in WGS84)
+df = kmi.get_data('2_m_temperature', 4.6824, 52.3617)
+
+# get the data for a certain location (in Lambert72)
+df = kmi.get_data('2_m_temperature', 169955, 338336, epsg='31370')
 ```
