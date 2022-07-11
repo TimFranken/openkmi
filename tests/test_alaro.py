@@ -14,15 +14,15 @@ class TestAlaro(TestCase):
 
     def test_get_layers(self):
 
-        self.assertEqual(len(self.kmi.get_layers()), 35)
+        self.assertEqual(len(self.kmi.get_parameters()), 35)
 
     def test_get_layer_abstract(self):
 
-        self.assertEqual(self.kmi.get_layer_abstract('2_m_temperature'), '2_m_temperature_height_above_ground')
+        self.assertEqual(self.kmi.get_parameter_info('2_m_temperature'), '2_m_temperature_height_above_ground')
 
     def test_get_layer_bbox(self):
 
-        self.assertEqual(self.kmi.get_layer_bbox('2_m_temperature'),
+        self.assertEqual(self.kmi.get_bbox('2_m_temperature'),
                          (-0.141525570620698, 47.37931567972357, 9.248525690604847, 53.640688592737376, 'CRS:84'))
 
     def test_get_data(self):
