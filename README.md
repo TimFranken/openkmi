@@ -1,6 +1,13 @@
 # OpenKMI
 
-Python package to download open data from KMI.
+Python package to download open data (observations and forecasts) from KMI.
+
+```python
+# example to get the windspeed for Stabroek starting from 2021 - present
+from openkmi.point_obs import Synop
+kmi = Synop()
+df = kmi.get_data('6438', start_date='2021-01-01T00:00:00', parameter_list=['wind_speed'])
+```
 
 ## Description
 
@@ -110,13 +117,13 @@ from openkmi.grid_data import Alaro
 kmi = Alaro()
 
 # get the available layers (parameters)
-layers = kmi.get_layers()
+parameters = kmi.get_parameters()
 
 # get more information on a layer
-abstract = kmi.get_layer_abstract('2_m_temperature')
+abstract = kmi.get_parameter_info('2_m_temperature')
 
 # get available forecasting times
-idx = kmi.get_layer_times('2_m_temperature')
+idx = kmi.get_times('2_m_temperature')
 
 # get the data for a certain location (coordinates in WGS84)
 df = kmi.get_data('2_m_temperature', 4.6824, 52.3617)

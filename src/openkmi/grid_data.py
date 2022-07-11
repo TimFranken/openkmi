@@ -10,49 +10,49 @@ class Alaro:
 
         self.wms = WebMapService(url='https://opendata.meteo.be/service/alaro/ows', version='1.3.0')
 
-    def get_layers(self):
+    def get_parameters(self):
         """
-        Get the layers we can use in the WMS
-        :return: list of layers
+        Get the parameters we can use in the WMS
+        :return: list of parameters
         """
         return list(self.wms.contents.keys())
 
-    def get_layer_times(self, layer_name):
+    def get_times(self, parameter_name):
         """
         Get a pandas date index with all the available dates we can request
-        :param layer_name: layer to query
+        :param parameter_name: parameter to query
         :return: pandas date index with all available dates
         """
-        layer = self.wms.contents[layer_name]
+        layer = self.wms.contents[parameter_name]
         tp = layer.timepositions[0].split('/')
         date_index = pd.date_range(start=tp[0], end=tp[1], freq=tp[-1][-2:])
 
         return date_index
 
-    def get_layer_abstract(self, layer_name):
+    def get_parameter_info(self, parameter_name):
         """
-        Get the layer abstract
-        :param layer_name: layer to query
-        :return: abstract from the layer
+        Get the parameter abstract
+        :param parameter_name: parameter to query
+        :return: abstract from the corresponding layer
         """
-        layer = self.wms.contents[layer_name]
+        layer = self.wms.contents[parameter_name]
 
         return layer.abstract
 
-    def get_layer_bbox(self, layer_name):
+    def get_bbox(self, parameter_name):
         """
-        Get the bounding box of the layer
-        :param layer_name: layer to query
+        Get the bounding box of the parameter
+        :param parameter_name: parameter to query
         :return: tuple with bounding box
         """
-        layer = self.wms.contents[layer_name]
+        layer = self.wms.contents[parameter_name]
 
         return layer.boundingBox
 
-    def get_data(self, layer_name, x, y, epsg='4326'):
+    def get_data(self, parameter_name, x, y, epsg='4326'):
         """
         Retrieve all the forecasts for a certain parameter and location
-        :param layer_name: layer to query
+        :param parameter_name: layer to query
         :param x: x-coordinate for which to retrieve data
         :param y: y-coordinate for which to retrieve data
         :param epsg: EPSG-code of the X-Y coordinates that are given. Default is WGS84
@@ -60,7 +60,7 @@ class Alaro:
         """
 
         # Create empty dataframe with available times
-        df = pd.DataFrame(index=self.get_layer_times(layer_name), columns=[layer_name])
+        df = pd.DataFrame(index=self.get_times(parameter_name), columns=[parameter_name])
 
         # Transform coordinates to EPSG:3857 that is used in the request
         if epsg == '3857':
@@ -80,8 +80,8 @@ class Alaro:
 
         for i in df.index:
             info = self.wms.getfeatureinfo(
-                layers=[layer_name],
-                query_layers=[layer_name],
+                layers=[parameter_name],
+                query_layers=[parameter_name],
                 srs='EPSG:3857',
                 bbox=bbox,
                 size=region_size,
@@ -92,6 +92,6 @@ class Alaro:
 
             data_value = json.loads(info.read())
 
-            df.loc[i, layer_name] = list(data_value['features'][0]['properties'].values())[0]
+            df.loc[i, parameter_name] = list(data_value['features'][0]['properties'].values())[0]
 
         return df
