@@ -27,8 +27,8 @@ class Synop:
         """
         response = self.station_wfs.getfeature(typename='synop:synop_station', outputFormat='csv')
         df_stations = pd.read_csv(response)
+        df_stations['code'] = df_stations['FID'].apply(lambda x: x.split('.')[1])
         df_stations.drop(columns=['FID'], inplace=True)
-        df_stations['code'] = df_stations['code'].astype('str')
         self.stations = df_stations
 
         return df_stations
@@ -139,8 +139,8 @@ class AWS(Synop):
 
         super().get_stations()
         # Only the data for station 'Zeebrugge' and 'Humain' are publicly available.
-        self.stations = self.stations[self.stations['name'].isin(['ZEEBRUGGE', 'HUMAIN'])]
+        # self.stations = self.stations[self.stations['name'].isin(['ZEEBRUGGE', 'HUMAIN'])]
         # Only the data from 2017-11-18 are publicly available.
-        self.stations['date_begin'] = '2017-11-18T00:00:00'
+        # self.stations['date_begin'] = '2017-11-18T00:00:00'
 
         return self.stations

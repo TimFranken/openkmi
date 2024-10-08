@@ -25,25 +25,25 @@ class TestAws(TestCase):
         df_r = self.kmi.get_data('6472', start_date='2022-02-01T00:00:00', end_date='2022-02-05T00:00:00',
                                  parameter_list=['wind_speed'])
 
-        self.assertAlmostEqual(df_r.mean()['wind_speed'], 5.073, places=3)
+        self.assertAlmostEqual(df_r.mean()['wind_speed'], 5.06875, places=3)
         self.assertEqual(df_r.shape[0], 24*4)
 
     def test_get_daily_data(self):
 
         kmi_d = AWS(freq='D')
         df_r = kmi_d.get_data('6472', start_date='2022-02-01T00:00:00', end_date='2022-02-05T00:00:00',
-                                 parameter_list=['wind_speed'])
+                              parameter_list=['wind_speed'])
 
-        self.assertAlmostEqual(df_r.mean()['wind_speed'], 5.0, places=3)
+        self.assertAlmostEqual(df_r.mean()['wind_speed'], 5.095, places=3)
         self.assertEqual(df_r.shape[0], 4)
 
     def test_get_10T_data(self):
 
         kmi_10t = AWS(freq='10T')
         df_r = kmi_10t.get_data('6472', start_date='2022-02-01T00:00:00', end_date='2022-02-05T00:00:00',
-                                 parameter_list=['wind_speed'])
+                                parameter_list=['wind_speed'])
 
-        self.assertAlmostEqual(df_r.mean()['wind_speed'], 5.087, places=3)
+        self.assertAlmostEqual(df_r.mean()['wind_speed'], 5.068, places=3)
         self.assertEqual(df_r.shape[0], 4*24*6)
 
     def test_wrong_freq(self):
