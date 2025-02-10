@@ -27,7 +27,10 @@ class Synop:
         """
         response = self.station_wfs.getfeature(typename='synop:synop_station', outputFormat='csv')
         df_stations = pd.read_csv(response)
-        df_stations['code'] = df_stations['FID'].apply(lambda x: x.split('.')[1])
+        if 'code' in df_stations.columns:
+            df_stations['code'] = df_stations['code'].apply(str)
+        else:
+            df_stations['code'] = df_stations['FID'].apply(lambda x: x.split('.')[1])
         df_stations.drop(columns=['FID'], inplace=True)
         self.stations = df_stations
 
