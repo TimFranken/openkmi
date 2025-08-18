@@ -34,7 +34,7 @@ The SYNOP data of RMI contain the observations of the synoptic network (22 stati
 8. Global radiation: SHORT_WAVE_FROM_SKY_24HOUR
 9. Total cloudiness: CLOUDINESS
 
-We refer to the [metadata](https://opendata.meteo.be/geonetwork/srv/eng/catalog.search;jsessionid=A7FEA3AF21132DE8B1DA8A2CD1746597#/metadata/RMI_DATASET_SYNOP) 
+We refer to the [metadata](https://opendata.meteo.be/geonetwork/srv/eng/catalog.search#/metadata/RMI_DATASET_SYNOP) 
 and [documentation](https://opendata.meteo.be/documentation/?dataset=synop)
 of the synoptic measurements for more info.
 
