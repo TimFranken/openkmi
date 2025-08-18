@@ -45,7 +45,7 @@ parameters such as air pressure, temperature, relative humidity, precipitation (
 wind (speed, gust, direction), sunshine duration, shortwave solar radiation and infrared radiation every 10 minutes.
 Hourly and daily AWS data are computed from the 10-min observations.
 
-At present only the data for station 'Zeebrugge' and 'Humain' from 2017-11-18 onwards are publicly available.
+For multiple stations, among which 'Zeebrugge', 'Humain', 'Uccle' and 'Ernage', the data are publicly available for different timeranges. However, the documentation of KMI does not clarify which stations are publicly available, so you have to try out by downloading the data.
 
 ### ALARO
 
