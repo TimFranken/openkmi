@@ -34,7 +34,7 @@ The SYNOP data of RMI contain the observations of the synoptic network (22 stati
 8. Global radiation: SHORT_WAVE_FROM_SKY_24HOUR
 9. Total cloudiness: CLOUDINESS
 
-We refer to the [metadata](https://opendata.meteo.be/geonetwork/srv/eng/catalog.search;jsessionid=A7FEA3AF21132DE8B1DA8A2CD1746597#/metadata/RMI_DATASET_SYNOP) 
+We refer to the [metadata](https://opendata.meteo.be/geonetwork/srv/eng/catalog.search#/metadata/RMI_DATASET_SYNOP) 
 and [documentation](https://opendata.meteo.be/documentation/?dataset=synop)
 of the synoptic measurements for more info.
 
@@ -45,7 +45,7 @@ parameters such as air pressure, temperature, relative humidity, precipitation (
 wind (speed, gust, direction), sunshine duration, shortwave solar radiation and infrared radiation every 10 minutes.
 Hourly and daily AWS data are computed from the 10-min observations.
 
-At present only the data for station 'Zeebrugge' and 'Humain' from 2017-11-18 onwards are publicly available.
+For multiple stations, among which 'Zeebrugge', 'Humain', 'Uccle' and 'Ernage', the data are publicly available for different timeranges. However, the documentation of KMI does not clarify which stations are publicly available, so you have to try out by downloading the data.
 
 ### ALARO
 
